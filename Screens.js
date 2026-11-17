@@ -45,23 +45,6 @@ export function ListScreen({ navigation }) {
     toggle();
   };
 
-  const seed = async () => {
-    const data = [
-      ['Laptop', 800, 'Computers'], ['Monitor', 150, 'Computers'], ['Keyboard', 40, 'Computers'],
-      ['Novel', 10, 'Books'], ['Cookbook', 15, 'Books'], ['Textbook', 30, 'Books'],
-      ['Old Golf', 2000, 'Cars'], ['Small Fiat', 1500, 'Cars'], ['Van', 5000, 'Cars'],
-    ];
-    for (const [title, price, category] of data) {
-      await addDoc(collection(db, 'ads'), {
-        title, price, category, description: 'Sample ' + title,
-        image1: `https://picsum.photos/seed/${title}1/300`,
-        image2: `https://picsum.photos/seed/${title}2/300`,
-        authorId: user.uid, authorName: user.displayName || user.email,
-      });
-    }
-    load();
-  };
-
   const shown = ads
     .filter((a) => !cat || a.category === cat)
     .filter((a) => !mine || (user && a.authorId === user.uid));
@@ -82,7 +65,6 @@ export function ListScreen({ navigation }) {
       {user && (
         <View>
           <Button title="New ad" onPress={() => navigation.navigate('Form')} />
-          <Button title="Seed 9 sample ads" onPress={seed} />
           <Button title={mine ? 'Showing: My ads (tap for All)' : 'Showing: All ads (tap for Mine)'} onPress={() => setMine(!mine)} />
         </View>
       )}
